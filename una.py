@@ -5,6 +5,7 @@ import speech_recognition as sr
 
 import wikipedia
 import webbrowser
+import datetime
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -29,7 +30,7 @@ def speak(audio):
 
 
 def wish():
-    hour = int(datetime.date.now().hour)
+    hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour <= 12:
         speak("Good morning !")
     elif hour > 12 and hour < 18:
@@ -44,7 +45,8 @@ class MainThread(QThread):
         super(MainThread, self).__init__()
 
     def run(self):
-        self.TaskExecution
+        print("in run func")
+        self.TaskExecution()
 
     def takeCommand(self):
         r = sr.Recognizer()
@@ -63,6 +65,7 @@ class MainThread(QThread):
         return query
 
     def TaskExecution(self):
+        print("in taskexecution")
         wish()
         while True:
             self.query = self.takeCommand().lower()
