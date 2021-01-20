@@ -27,25 +27,6 @@ def speak(audio):
     print(audio)
     engine.runAndWait()
 
-# stt
-
-
-def takeCommand():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Listening ...")
-        r.pause_threshold = 1
-        audio = r.listen(source, timeout=1, phrase_time_limit=5)
-    try:
-        print("Recognizing ...")
-        query = r.recognize_google(audio, language="en-in")
-        print(f"user said : {query}")
-
-    except Exception as e:
-        speak("Say that again ")
-        return "none"
-    return query
-
 
 def wish():
     hour = int(datetime.date.now().hour)
@@ -58,26 +39,42 @@ def wish():
     speak("I'm here to help ! Ask me anything")
 
 
-def TaskExecution():
-    while True:
-        query = takeCommand().lower()
-        if "wikipedia" in query:
-            speak("Searching wikipedia")
-            query = query.replace("wikipedia", "")
-            results = wikipedia.summary(query, sentences=2)
-            speak(results)
-            print(results)
-
-        elif "open youtube" in query:
-            webbrowser.open("www.youtube.com")
-
-
 class MainThread(QThread):
     def __init__(self):
         super(MainThread, self).__init__()
 
     def run(self):
         self.TaskExecution
+
+    def takeCommand(self):
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            print("Listening ...")
+            r.pause_threshold = 1
+            audio = r.listen(source, timeout=1, phrase_time_limit=5)
+        try:
+            print("Recognizing ...")
+            query = r.recognize_google(audio, language="en-in")
+            print(f"user said : {query}")
+
+        except Exception as e:
+            speak("Say that again ")
+            return "none"
+        return query
+
+    def TaskExecution(self):
+        wish()
+        while True:
+            self.query = self.takeCommand().lower()
+            if "wikipedia" in self.query:
+                speak("Searching wikipedia")
+                self.query = self.query.replace("wikipedia", "")
+                results = wikipedia.summary(self.query, sentences=2)
+                speak(results)
+                print(results)
+
+            elif "open youtube" in self.query:
+                webbrowser.open("www.youtube.com")
 
 
 startExecution = MainThread()
