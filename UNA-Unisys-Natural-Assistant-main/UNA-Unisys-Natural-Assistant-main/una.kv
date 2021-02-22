@@ -1,0 +1,61 @@
+#:kivy 2.0.0
+#:import Factory kivy.factory.Factory
+
+<MyPopup@Popup>
+    auto_dismiss: False
+    title: "Add Reminder"
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+
+        Label:
+            text: "Reminder: "
+        TextInput:
+            id: reminder
+            multiline: False
+
+        Label:
+            text: "Date(YYYY-MM-DD): "
+        TextInput:
+            id: date
+            multiline: False
+
+        Button:
+            text: "Done"
+            on_release: root.dismiss()
+
+<MyLayout>
+    # listens: listens
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        #padding: 50
+    
+        Image:
+            source: './Assets/una.gif'
+            center: self.parent.center
+            allow_stretch: True
+
+        Button:
+            text: "Listen"
+            multiline: True
+            on_press: root.listen()
+
+        # Label:
+        #     text: "Name"
+        #     id: listens
+        #     color: (0,0,0,1)
+        #     background_color: (0,0,0,1)
+        #     size_hint: (.7, 0.25)
+        #     bold: True
+        #     italic: True
+        #     outline_color: (1,0,0)
+        #     outline_width: 2
+        #     canvas.before:
+        #         Color: 
+        #             rgba: self.background_color
+        #         Rectangle:
+        #             size: self.size
+        #             pos: self.pos
+        
+        
